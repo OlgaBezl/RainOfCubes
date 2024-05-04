@@ -63,5 +63,4 @@ public class Cube : MonoBehaviour
         Destroyed?.Invoke(this);
         StopCoroutine(_coroutine);
     }
-
 }

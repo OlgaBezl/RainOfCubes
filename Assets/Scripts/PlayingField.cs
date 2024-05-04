@@ -6,12 +6,13 @@ public class PlayingField : MonoBehaviour
 
     private float _halfWidth;
     private float _halfDepth;
+    private float _halfFactor = 0.5f;
 
     private void Start()
     {
         Vector3 size = _meshRenderer.bounds.size;
-        _halfWidth = size.x / 2f;
-        _halfDepth = size.z / 2f;
+        _halfWidth = size.x * _halfFactor;
+        _halfDepth = size.z * _halfFactor;
     }
 
     public Vector3 GetRandomPosition(float positionY)
