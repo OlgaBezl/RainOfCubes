@@ -2,25 +2,15 @@ using System;
 using System.Collections;
 using UnityEngine;
 
-[RequireComponent (typeof(MeshRenderer))]
-[RequireComponent(typeof(Collider))]
-public class Cube : MonoBehaviour
+public class Cube : MaterialObject, IPoolItem<Cube>
 {
     [SerializeField] private float _minLifeTime = 2f;
     [SerializeField] private float _maxLifeTime = 5f;
 
-    private MeshRenderer _renderer;
-    private Color _defaultColor;
     private bool _isTouched;
     private Coroutine _coroutine;
 
     public event Action<Cube> Destroyed;
-
-    private void Awake()
-    {
-        _renderer = GetComponent<MeshRenderer>();
-        _defaultColor = _renderer.material.color;
-    }
 
     private void OnCollisionEnter(Collision collision)
     {
@@ -35,13 +25,13 @@ public class Cube : MonoBehaviour
     public void Activate()
     {
         _isTouched = false;
-        _renderer.material.color = _defaultColor;
+        Renderer.material.color = DefaultColor;
         gameObject.SetActive(true);
     }
 
     private void RandomChangeColor()
     {
-        _renderer.material.color = UnityEngine.Random.ColorHSV();
+        Renderer.material.color = UnityEngine.Random.ColorHSV();
     }
 
     private void SetRandomLifeTime()

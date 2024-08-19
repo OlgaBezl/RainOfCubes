@@ -1,34 +1,30 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class CubeGenerator : MonoBehaviour
+public class CubeGenerator : GenericGenerator<Cube>
 {
     [SerializeField] private float _delay;
     [SerializeField] private PlayingField _playingField;
-    [SerializeField] private CubePool _pool;
 
-    private bool _isActive;
     private Coroutine _coroutine;
 
-    public void Start()
+    protected override void Start()
     {
-        _isActive = true;
+        base.Start();
         _coroutine = StartCoroutine(GenerateCrystals());
     }
 
-    public void Reset()
+    protected override void Reset()
     {
-        _isActive = false;
+        base.Reset();
         StopCoroutine(_coroutine);
-        _pool.Reset();
     }
 
     private IEnumerator GenerateCrystals()
     {
         var wait = new WaitForSeconds(_delay);
 
-        while (_isActive)
+        while (IsActive)
         {
             Spawn();
             yield return wait;
@@ -37,7 +33,7 @@ public class CubeGenerator : MonoBehaviour
 
     private void Spawn()
     {
-        Cube cube = _pool.GetObject();
+        Cube cube = base.Spawn();
         cube.transform.position = _playingField.GetRandomPosition(transform.position.y);
     }
 }
